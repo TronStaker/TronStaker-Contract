@@ -6,11 +6,11 @@ contract TronStaker {
 	using SafeMath for uint256;
 
 	uint256 constant public INVEST_MIN_AMOUNT = 1 ether;
-	uint256[] public REFERRAL_PERCENTS = [60, 30, 10];
-	uint256 constant public PROJECT_FEE = 120;
-	uint256 constant public PERCENT_STEP = 3;
+	uint256[] public REFERRAL_PERCENTS = [600, 300, 100];
+	uint256 constant public PROJECT_FEE = 1200;
+	uint256 constant public PERCENT_STEP = 25;
 	uint256 constant public WITHDRAW_FEE = 1000; //In base point
-	uint256 constant public PERCENTS_DIVIDER = 1000;
+	uint256 constant public PERCENTS_DIVIDER = 10000;
     uint256 constant public TIME_STEP = 1 days;
 	
 	uint256 public totalStaked;
@@ -290,4 +290,4 @@ library SafeMath {
 
         return c;
     }
-}
+}Ï
