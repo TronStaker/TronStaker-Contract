@@ -58,12 +58,12 @@ contract TronStaker {
 		commissionWallet = wallet;
 		startUNIX = startDate;
 
-        plans.push(Plan(14, 80));
-        plans.push(Plan(21, 75));
-        plans.push(Plan(28, 70));
-        plans.push(Plan(14, 80));
-        plans.push(Plan(21, 75));
-        plans.push(Plan(28, 70));
+        plans.push(Plan(14, 800));
+        plans.push(Plan(21, 750));
+        plans.push(Plan(28, 700));
+        plans.push(Plan(14, 800));
+        plans.push(Plan(21, 750));
+        plans.push(Plan(28, 700));
 	}
 
 	function invest(address referrer, uint8 plan) public payable {
