@@ -635,7 +635,7 @@ contract TRONStaker {
     uint256 public constant WITHDRAW_FEE = 1000; //In base point
     uint256 public constant PERCENTS_DIVIDER = 10000;
     uint256 public constant TIME_STEP = 1 days;
-    address token=0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B;
+    address constant token = 0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B;
     uint256 public totalStaked;
     uint256 public totalRefBonus;
 
