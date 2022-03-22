@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: MIT
 
+/**
+ *Submitted for verification at BscScan.com on 2021-08-24
+*/
+
+// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
 /*
@@ -39,10 +45,7 @@ pragma solidity ^0.8.0;
 abstract contract Ownable is Context {
     address private _owner;
 
-    event OwnershipTransferred(
-        address indexed previousOwner,
-        address indexed newOwner
-    );
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
@@ -82,10 +85,7 @@ abstract contract Ownable is Context {
      * Can only be called by the current owner.
      */
     function transferOwnership(address newOwner) public virtual onlyOwner {
-        require(
-            newOwner != address(0),
-            "Ownable: new owner is the zero address"
-        );
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
         _setOwner(newOwner);
     }
 
@@ -267,9 +267,7 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(address recipient, uint256 amount)
-        external
-        returns (bool);
+    function transfer(address recipient, uint256 amount) external returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -278,10 +276,7 @@ interface IERC20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    function allowance(address owner, address spender)
-        external
-        view
-        returns (uint256);
+    function allowance(address owner, address spender) external view returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -326,11 +321,7 @@ interface IERC20 {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
 pragma solidity ^0.8.0;
@@ -385,16 +376,10 @@ library Address {
      * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].
      */
     function sendValue(address payable recipient, uint256 amount) internal {
-        require(
-            address(this).balance >= amount,
-            "Address: insufficient balance"
-        );
+        require(address(this).balance >= amount, "Address: insufficient balance");
 
         (bool success, ) = recipient.call{value: amount}("");
-        require(
-            success,
-            "Address: unable to send value, recipient may have reverted"
-        );
+        require(success, "Address: unable to send value, recipient may have reverted");
     }
 
     /**
@@ -415,10 +400,7 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data)
-        internal
-        returns (bytes memory)
-    {
+    function functionCall(address target, bytes memory data) internal returns (bytes memory) {
         return functionCall(target, data, "Address: low-level call failed");
     }
 
@@ -452,13 +434,7 @@ library Address {
         bytes memory data,
         uint256 value
     ) internal returns (bytes memory) {
-        return
-            functionCallWithValue(
-                target,
-                data,
-                value,
-                "Address: low-level call with value failed"
-            );
+        return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
     }
 
     /**
@@ -473,15 +449,10 @@ library Address {
         uint256 value,
         string memory errorMessage
     ) internal returns (bytes memory) {
-        require(
-            address(this).balance >= value,
-            "Address: insufficient balance for call"
-        );
+        require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
-        (bool success, bytes memory returndata) = target.call{value: value}(
-            data
-        );
+        (bool success, bytes memory returndata) = target.call{value: value}(data);
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -491,17 +462,8 @@ library Address {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(address target, bytes memory data)
-        internal
-        view
-        returns (bytes memory)
-    {
-        return
-            functionStaticCall(
-                target,
-                data,
-                "Address: low-level static call failed"
-            );
+    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {
+        return functionStaticCall(target, data, "Address: low-level static call failed");
     }
 
     /**
@@ -527,16 +489,8 @@ library Address {
      *
      * _Available since v3.4._
      */
-    function functionDelegateCall(address target, bytes memory data)
-        internal
-        returns (bytes memory)
-    {
-        return
-            functionDelegateCall(
-                target,
-                data,
-                "Address: low-level delegate call failed"
-            );
+    function functionDelegateCall(address target, bytes memory data) internal returns (bytes memory) {
+        return functionDelegateCall(target, data, "Address: low-level delegate call failed");
     }
 
     /**
@@ -581,6 +535,7 @@ library Address {
 
 pragma solidity ^0.8.0;
 
+
 /**
  * @title SafeERC20
  * @dev Wrappers around ERC20 operations that throw on failure (when the token
@@ -598,10 +553,7 @@ library SafeERC20 {
         address to,
         uint256 value
     ) internal {
-        _callOptionalReturn(
-            token,
-            abi.encodeWithSelector(token.transfer.selector, to, value)
-        );
+        _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));
     }
 
     function safeTransferFrom(
@@ -610,10 +562,7 @@ library SafeERC20 {
         address to,
         uint256 value
     ) internal {
-        _callOptionalReturn(
-            token,
-            abi.encodeWithSelector(token.transferFrom.selector, from, to, value)
-        );
+        _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));
     }
 
     /**
@@ -635,10 +584,7 @@ library SafeERC20 {
             (value == 0) || (token.allowance(address(this), spender) == 0),
             "SafeERC20: approve from non-zero to non-zero allowance"
         );
-        _callOptionalReturn(
-            token,
-            abi.encodeWithSelector(token.approve.selector, spender, value)
-        );
+        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
     }
 
     function safeIncreaseAllowance(
@@ -647,14 +593,7 @@ library SafeERC20 {
         uint256 value
     ) internal {
         uint256 newAllowance = token.allowance(address(this), spender) + value;
-        _callOptionalReturn(
-            token,
-            abi.encodeWithSelector(
-                token.approve.selector,
-                spender,
-                newAllowance
-            )
-        );
+        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
     }
 
     function safeDecreaseAllowance(
@@ -664,19 +603,9 @@ library SafeERC20 {
     ) internal {
         unchecked {
             uint256 oldAllowance = token.allowance(address(this), spender);
-            require(
-                oldAllowance >= value,
-                "SafeERC20: decreased allowance below zero"
-            );
+            require(oldAllowance >= value, "SafeERC20: decreased allowance below zero");
             uint256 newAllowance = oldAllowance - value;
-            _callOptionalReturn(
-                token,
-                abi.encodeWithSelector(
-                    token.approve.selector,
-                    spender,
-                    newAllowance
-                )
-            );
+            _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
         }
     }
 
@@ -691,16 +620,10 @@ library SafeERC20 {
         // we're implementing it ourselves. We use {Address.functionCall} to perform this call, which verifies that
         // the target address contains contract code and also asserts for success in the low-level call.
 
-        bytes memory returndata = address(token).functionCall(
-            data,
-            "SafeERC20: low-level call failed"
-        );
+        bytes memory returndata = address(token).functionCall(data, "SafeERC20: low-level call failed");
         if (returndata.length > 0) {
             // Return data is optional
-            require(
-                abi.decode(returndata, (bool)),
-                "SafeERC20: ERC20 operation did not succeed"
-            );
+            require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }
     }
 }
@@ -711,14 +634,14 @@ contract TRONStaker {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    uint256 public constant INVEST_MIN_AMOUNT = 1 ether;
+    uint256 public constant INVEST_MIN_AMOUNT = 1;
     uint256[] public REFERRAL_PERCENTS = [600, 300, 100];
     uint256 public constant PROJECT_FEE = 1200;
     uint256 public constant PERCENT_STEP = 25;
     uint256 public constant WITHDRAW_FEE = 1000; //In base point
     uint256 public constant PERCENTS_DIVIDER = 10000;
     uint256 public constant TIME_STEP = 1 days;
-
+    address public trxAddress='0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B';
     uint256 public totalStaked;
     uint256 public totalRefBonus;
 
@@ -785,19 +708,12 @@ contract TRONStaker {
         plans.push(Plan(28, 700));
     }
 
-    function invest(
-        address referrer,
-        uint8 plan,
-        IERC20 token,
-        uint256 _betAmount
-    ) public {
-        //require(msg.value >= INVEST_MIN_AMOUNT, "too small");
+    function invest(address referrer, uint8 plan, address token, uint256 _betAmount) public  {
+        require(_betAmount >= INVEST_MIN_AMOUNT, "too small");
         require(plan < 6, "Invalid plan");
-
-        //uint256 fee = msg.value.mul(PROJECT_FEE).div(PERCENTS_DIVIDER);
+        require(token == trxAddress, "No other token allowed");
         uint256 fee = _betAmount.mul(PROJECT_FEE).div(PERCENTS_DIVIDER);
-        token.safeTransfer(commissionWallet, fee);
-        //commissionWallet.transfer(fee);
+        IERC20(token).safeTransfer(commissionWallet,fee);
         emit FeePayed(msg.sender, fee);
 
         User storage user = users[msg.sender];
@@ -820,10 +736,7 @@ contract TRONStaker {
             address upline = user.referrer;
             for (uint256 i = 0; i < 3; i++) {
                 if (upline != address(0)) {
-                    //uint256 amount = msg.value.mul(REFERRAL_PERCENTS[i]).div(PERCENTS_DIVIDER);
-                    uint256 amount = _betAmount.mul(REFERRAL_PERCENTS[i]).div(
-                        PERCENTS_DIVIDER
-                    );
+                    uint256 amount = _betAmount.mul(REFERRAL_PERCENTS[i]).div(PERCENTS_DIVIDER);
                     users[upline].bonus = users[upline].bonus.add(amount);
                     users[upline].totalBonus = users[upline].totalBonus.add(
                         amount
@@ -874,7 +787,6 @@ contract TRONStaker {
 
         require(totalAmount > 0, "User has no dividends");
 
-        //uint256 contractBalance = address(this).balance;
         uint256 contractBalance = token.balanceOf(address(this));
         if (contractBalance < totalAmount) {
             totalAmount = contractBalance;
@@ -882,8 +794,7 @@ contract TRONStaker {
 
         user.checkpoint = block.timestamp;
 
-        //payable(msg.sender).transfer(totalAmount);
-        token.safeTransfer(msg.sender, totalAmount);
+         token.safeTransfer(msg.sender,totalAmount);
 
         emit Withdrawn(msg.sender, totalAmount);
     }
