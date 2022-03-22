@@ -1,11 +1,5 @@
 // SPDX-License-Identifier: MIT
 
-/**
- *Submitted for verification at BscScan.com on 2021-08-24
-*/
-
-// SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.0;
 
 /*
@@ -634,14 +628,14 @@ contract TRONStaker {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    uint256 public constant INVEST_MIN_AMOUNT = 1;
+    uint256 public constant INVEST_MIN_AMOUNT = 1 ;
     uint256[] public REFERRAL_PERCENTS = [600, 300, 100];
     uint256 public constant PROJECT_FEE = 1200;
     uint256 public constant PERCENT_STEP = 25;
     uint256 public constant WITHDRAW_FEE = 1000; //In base point
     uint256 public constant PERCENTS_DIVIDER = 10000;
     uint256 public constant TIME_STEP = 1 days;
-    address public trxAddress='0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B';
+    address token=0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B;
     uint256 public totalStaked;
     uint256 public totalRefBonus;
 
@@ -708,12 +702,13 @@ contract TRONStaker {
         plans.push(Plan(28, 700));
     }
 
-    function invest(address referrer, uint8 plan, address token, uint256 _betAmount) public  {
+    function invest(address referrer, uint8 plan, uint256 _betAmount) public  {
         require(_betAmount >= INVEST_MIN_AMOUNT, "too small");
-        require(plan < 6, "Invalid plan");
-        require(token == trxAddress, "No other token allowed");
+        require(plan < 6, "Invalid plan");            
+        IERC20(token).safeTransferFrom(msg.sender,address(this),_betAmount);
         uint256 fee = _betAmount.mul(PROJECT_FEE).div(PERCENTS_DIVIDER);
         IERC20(token).safeTransfer(commissionWallet,fee);
+        //commissionWallet.transfer(fee);
         emit FeePayed(msg.sender, fee);
 
         User storage user = users[msg.sender];
@@ -736,6 +731,7 @@ contract TRONStaker {
             address upline = user.referrer;
             for (uint256 i = 0; i < 3; i++) {
                 if (upline != address(0)) {
+                    //uint256 amount = msg.value.mul(REFERRAL_PERCENTS[i]).div(PERCENTS_DIVIDER);
                     uint256 amount = _betAmount.mul(REFERRAL_PERCENTS[i]).div(PERCENTS_DIVIDER);
                     users[upline].bonus = users[upline].bonus.add(amount);
                     users[upline].totalBonus = users[upline].totalBonus.add(
@@ -772,7 +768,7 @@ contract TRONStaker {
         );
     }
 
-    function withdraw(IERC20 token) public {
+    function withdraw() public {
         User storage user = users[msg.sender];
 
         uint256 totalAmount = getUserDividends(msg.sender);
@@ -787,14 +783,16 @@ contract TRONStaker {
 
         require(totalAmount > 0, "User has no dividends");
 
-        uint256 contractBalance = token.balanceOf(address(this));
+        //uint256 contractBalance = address(this).balance;
+        uint256 contractBalance = IERC20(token).balanceOf(address(this));
         if (contractBalance < totalAmount) {
             totalAmount = contractBalance;
         }
 
         user.checkpoint = block.timestamp;
 
-         token.safeTransfer(msg.sender,totalAmount);
+        //payable(msg.sender).transfer(totalAmount);
+         IERC20(token).safeTransfer(msg.sender,totalAmount);
 
         emit Withdrawn(msg.sender, totalAmount);
     }
