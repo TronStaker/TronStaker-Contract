@@ -6,7 +6,7 @@ contract TRONStaker {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    uint256 public constant INVEST_MIN_AMOUNT = 1 ether ;
+    uint256 public constant INVEST_MIN_AMOUNT = 10 ether ;
     uint256[] public REFERRAL_PERCENTS = [600, 300, 100];
     uint256 public constant PROJECT_FEE = 1200;
     uint256 public constant PERCENT_STEP = 25;
