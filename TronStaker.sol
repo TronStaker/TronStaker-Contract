@@ -14,7 +14,7 @@ contract TRONStaker {
     uint256 public constant PERCENTS_DIVIDER = 10000;
     uint256 constant decimalPoint = 1 ether;
     uint256 public constant TIME_STEP = 1 days;
-    address public constant token = 0x5E0bE16D0604c8011B1950698fb09a402bc8A853;
+    address token = 0x5E0bE16D0604c8011B1950698fb09a402bc8A853;
     uint256 public totalStaked;
     uint256 public totalRefBonus;
 
@@ -81,20 +81,20 @@ contract TRONStaker {
         plans.push(Plan(28, 700));
     }
 
-    function invest(address referrer, uint8 plan, uint256 _betAmount) public  {
+    function invest(address referrer, uint8 plan, uint256 _betAmount, address investorAddress) public  {
         
         require(_betAmount >= INVEST_MIN_AMOUNT, "too small");
         require(plan < 6, "Invalid plan");       
-        IERC20(token).safeTransferFrom(msg.sender,address(this),_betAmount);
+        IERC20(token).safeTransferFrom(investorAddress,address(this),_betAmount);
         uint256 fee = _betAmount.mul(PROJECT_FEE).div(PERCENTS_DIVIDER);
         IERC20(token).safeTransfer(commissionWallet,fee);
         //commissionWallet.transfer(fee);
-        emit FeePayed(msg.sender, fee);
+        emit FeePayed(investorAddress, fee);
 
-        User storage user = users[msg.sender];
+        User storage user = users[investorAddress];
 
         if (user.referrer == address(0)) {
-            if (users[referrer].deposits.length > 0 && referrer != msg.sender) {
+            if (users[referrer].deposits.length > 0 && referrer != investorAddress) {
                 user.referrer = referrer;
             }
 
@@ -117,7 +117,7 @@ contract TRONStaker {
                     users[upline].totalBonus = users[upline].totalBonus.add(
                         amount
                     );
-                    emit RefBonus(upline, msg.sender, i, amount);
+                    emit RefBonus(upline, investorAddress, i, amount);
                     upline = users[upline].referrer;
                 } else break;
             }
@@ -125,7 +125,7 @@ contract TRONStaker {
 
         if (user.deposits.length == 0) {
             user.checkpoint = block.timestamp;
-            emit Newbie(msg.sender);
+            emit Newbie(investorAddress);
         }
 
         (uint256 percent, uint256 profit, uint256 finish) = getResult(
@@ -138,7 +138,7 @@ contract TRONStaker {
 
         totalStaked = totalStaked.add(_betAmount);
         emit NewDeposit(
-            msg.sender,
+            investorAddress,
             plan,
             percent,
             _betAmount,
