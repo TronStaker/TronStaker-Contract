@@ -14,7 +14,7 @@ contract TRONStaker {
     uint256 public constant PERCENTS_DIVIDER = 10000;
     uint256 constant decimalPoint = 1 ether;
     uint256 public constant TIME_STEP = 1 days;
-    address token = 0x5E0bE16D0604c8011B1950698fb09a402bc8A853;
+    address token = 0x85EAC5Ac2F758618dFa09bDbe0cf174e7d574D5B;
     uint256 public totalStaked;
     uint256 public totalRefBonus;
 
